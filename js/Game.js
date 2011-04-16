@@ -14,6 +14,8 @@ var Game = Class.extend({
     bodyDef: null,
     canvas: null,
 
+    cannon: null,
+
     width: null,
     height: null,
 
@@ -32,8 +34,7 @@ var Game = Class.extend({
                 b2MassData = Box2D.Collision.Shapes.b2MassData,
                 b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
                 b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
-                b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
-                b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef;
+                b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
          this.world = new b2World(
             new b2Vec2(0, 10),    //gravity
@@ -66,6 +67,10 @@ var Game = Class.extend({
          this.bodyDef.position.Set(this.width / 30 + 1.8, 13);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
 
+        // drawing stuff
+
+         this.cannon = new Cannon(this);
+
          this.maps = new Maps(this);
          this.maps.makeMap('testmap');
 
@@ -80,6 +85,22 @@ var Game = Class.extend({
 
          var that = this;
          window.setInterval(function() {that.step.apply(that);}, 1000 / 30);
+
+        var contactListener = new Box2D.Dynamics.b2ContactListener;
+        contactListener.BeginContact = function(contact, manifold) {
+           //console.log(contact);
+           //console.log(contact.m_fixtureA.m_body.m_type, contact.m_fixtureB.m_body.m_type);
+
+           if(contact.m_fixtureA.m_body.m_type !== b2Body.b2_staticBody &&
+              contact.m_fixtureB.m_body.m_type !== b2Body.b2_staticBody) {
+                //contact.m_fixtureA.Destroy();
+           }
+            /*
+            if(contact.m_fixtureB.m_body.m_type) {
+               contact.m_fixtureB.Destroy();
+           }*/
+        };
+        this.world.SetContactListener(contactListener);
     },
 
     step: function () {
