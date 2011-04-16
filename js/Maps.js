@@ -25,20 +25,20 @@ var Maps = Class.extend({
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
             b2Body = Box2D.Dynamics.b2Body;
 
-         //create some objects
-         this.game.bodyDef.type = b2Body.b2_dynamicBody;
-         for(var i = 0; i < 10; ++i) {
-            if(Math.random() > 0.5) {
-               this.game.fixDef.shape = new b2PolygonShape;
-               this.game.fixDef.shape.SetAsBox(
-                     Math.random() + 0.1 //half width
-                  ,  Math.random() + 0.1 //half height
-               );
-            } else {
-               this.game.fixDef.shape = new b2CircleShape(
-                  Math.random() + 0.1 //radius
-               );
-            }
+        //create some objects
+        this.game.bodyDef.type = b2Body.b2_dynamicBody;
+        for(var i = 0; i < 10; ++i) {
+            this.game.fixDef.shape = new b2PolygonShape;
+            console.log()
+            this.game.fixDef.shape.SetAsBox(
+                Math.random() + 0.1, //half width
+                Math.random() + 0.1 //half height
+            );
+             //Rysowanie kółek
+//               this.game.fixDef.shape = new b2CircleShape(
+//                  Math.random() + 0.1 //radius
+//               );
+//            }
             this.game.bodyDef.position.x = Math.random() * 10;
             this.game.bodyDef.position.y = Math.random() * 10;
             this.game.world.CreateBody(this.game.bodyDef).CreateFixture(this.game.fixDef);
