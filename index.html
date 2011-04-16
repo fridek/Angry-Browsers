@@ -1,12 +1,23 @@
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>Box2dWeb Demo</title>
-    <!-- <script type="text/javascript" src="http://fbug.googlecode.com/svn/lite/branches/firebug1.4/content/firebug-lite-dev.js"></script> -->
+
+    <!-- engine -->
+    <script type="text/javascript" src="doc/Box2dWeb-2.1a.2.js"></script>
+
+    <!--our files -->
+    <script type="text/javascript" src="libs/Class.js"></script>
+    <script type="text/javascript" src="js/Game.js"></script>
+    <script type="text/javascript" src="js/Maps.js"></script>
 </head>
-<body onload="init();">
+<body>
+<h1>Angry Browsers</h1>
 <canvas id="canvas" width="600" height="400" style="background-color:#333333;"></canvas>
+<script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function() {
+        var game = new Game();
+    }, false);
+</script>
 </body>
-<script type="text/javascript" src="doc/Box2dWeb-2.1a.2.js"></script>
-<script type="text/javascript" src="doc/Game.js"></script>
-<script type="text/javascript" src="doc/Maps.js"></script>
 </html>
