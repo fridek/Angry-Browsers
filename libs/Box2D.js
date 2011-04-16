@@ -10832,6 +10832,11 @@ Box2D.postDefs = [];
          cy = center.y * drawScale;
 
        var img = new Image();
+       if(center.x == IE.position.x && center.y == IE.position.y){
+           // todo omg omg what a hakaton :-)
+           img.src = 'images/ie.png';
+       }
+       img.src = 'images/chromium.png';
 
        // todo omg omg what a hack
        // Once it's loaded draw the image on the canvas.
@@ -10840,19 +10845,6 @@ Box2D.postDefs = [];
 //           context.drawImage(this, 8, 20, 140, 50, 0, 150, 350, 70);
            s.drawImage(img, cx - 25, cy - 25);
        }, false);
-
-       img.src = 'images/chromium.png';
-
-//      s.moveTo(0, 0);
-//      s.beginPath();
-//      s.strokeStyle = this._color(color.color, this.m_alpha);
-//      s.fillStyle = this._color(color.color, this.m_fillAlpha);
-//      s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
-//      s.moveTo(cx, cy);
-//      s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
-//      s.closePath();
-//      s.fill();
-//      s.stroke();
    };
    b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
       var s = this.m_ctx,

@@ -24,9 +24,15 @@ var Cannon = Class.extend({
     game: null,
     fixDef: null,
 
+    input_power: null,
+    input_angle: null,
+
     can: null,
 
     init: function(game) {
+
+        this.input_power = document.getElementById('power');
+        this.input_angle = document.getElementById('angle');
 
         //todo clean me
         var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -86,8 +92,17 @@ var Cannon = Class.extend({
     initEventHandlers: function() {
         var self = this, b2Body = Box2D.Dynamics.b2Body;
         this.game.canvas.addEventListener("click", function(event) {
+            var angle = self.input_angle.value * -1;
+
+            var power = {
+                x: Math.cos(Math.PI * angle/180) * self.input_power.value,
+                y: Math.sin(Math.PI * angle/180) * self.input_power.value
+            };
+            if(power.x == 0) {power.x = 0.01;}
+            if(power.y == 0) {power.y = 0.01;}
+
             self.can.SetType(b2Body.b2_dynamicBody);
-            self.can.ApplyImpulse({x:100, y:-50}, self.can.position);
+            self.can.ApplyImpulse(power, self.can.position);
         }, false);
     }
 });
