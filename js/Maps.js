@@ -102,11 +102,7 @@ var Maps = Class.extend({
         Game.bodyDef.type = b2Body.b2_dynamicBody;
         for (var i = 0; i < Map.length; ++i) {
             var elementObject = Map[i];
-            Game.fixDef.shape = new b2PolygonShape;
-            Game.fixDef.shape.SetAsBox(
-                elementObject.width/2, //half width
-                elementObject.height/2  //half height
-            );
+
             //Object angryType - if can be destroyed etc.
             if(elementObject.angryType) {
                 Game.bodyDef.angryType = elementObject.angryType;
@@ -118,6 +114,17 @@ var Maps = Class.extend({
                 Game.bodyDef.bullet = elementObject.bullet;
             } else {
                 Game.bodyDef.bullet = false;
+            }
+            if(elementObject.angryType === Game.angryTypeIE) {
+                Game.fixDef.shape = new b2CircleShape(
+                    0.8 //radius
+                );
+            } else {
+                Game.fixDef.shape = new b2PolygonShape;
+                Game.fixDef.shape.SetAsBox(
+                    elementObject.width/2, //half width
+                    elementObject.height/2  //half height
+                );
             }
 
             Game.bodyDef.position.x = elementObject.posX;
