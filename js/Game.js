@@ -86,7 +86,7 @@ var Game = Class.extend({
          this.cannon = new Cannon(this);
 
          this.maps = new Maps(this);
-         this.maps.makeMap('testmap');
+         this.maps.makeMap();
 
          //setup debug draw
          var debugDraw = new b2DebugDraw();
@@ -102,7 +102,7 @@ var Game = Class.extend({
 
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact, manifold) {
-           console.log(contact.m_fixtureA.m_body.m_angryType, contact.m_fixtureB.m_body.m_angryType);
+           //console.log(contact.m_fixtureA.m_body.m_angryType, contact.m_fixtureB.m_body.m_angryType);
 
            if(contact.m_fixtureA.m_body.m_angryType == that.angryTypeBrick &&
               contact.m_fixtureB.m_body.m_angryType == that.angryTypeBullet){
