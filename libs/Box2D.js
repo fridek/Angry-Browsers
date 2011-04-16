@@ -18,7 +18,7 @@
 var Box2D = {};
 
 (function (a2j, undefined) {
-   
+
    function emptyFn() {};
    a2j.inherit = function(cls, base) {
       var tmpCtr = cls;
@@ -26,13 +26,13 @@ var Box2D = {};
       cls.prototype = new emptyFn;
       cls.prototype.constructor = tmpCtr;
    };
-   
+
    a2j.generateCallback = function generateCallback(context, cb) {
       return function () {
          cb.apply(context, arguments);
       };
    };
-   
+
    a2j.NVector = function NVector(length) {
       if (length === undefined) length = 0;
       var tmp = new Array(length || 0);
@@ -40,18 +40,18 @@ var Box2D = {};
       tmp[i] = 0;
       return tmp;
    };
-   
+
    a2j.is = function is(o1, o2) {
       if (o1 === null) return false;
       if ((o2 instanceof Function) && (o1 instanceof o2)) return true;
       if ((o1.constructor.__implements != undefined) && (o1.constructor.__implements[o2])) return true;
       return false;
    };
-   
+
    a2j.parseUInt = function(v) {
       return Math.abs(parseInt(v));
    }
-   
+
 })(Box2D);
 
 //#TODO remove assignments from global namespace
@@ -10806,9 +10806,21 @@ Box2D.postDefs = [];
       if (!radius) return;
       var s = this.m_ctx;
       var drawScale = this.m_drawScale;
-      s.beginPath();
-      s.strokeStyle = this._color(color.color, this.m_alpha);
-      s.arc(center.x * drawScale, center.y * drawScale, radius * drawScale, 0, Math.PI * 2, true);
+       s.beginPath();
+       s.strokeStyle = this._color(color.color, this.m_alpha);
+       s.arc(center.x * drawScale, center.y * drawScale, radius * drawScale, 0, Math.PI * 2, true);
+
+       var img = new Image();
+
+       // Once it's loaded draw the image on the canvas.
+       img.addEventListener('load', function () {
+//           // Crop and resize the image: sx, sy, sw, sh, dx, dy, dw, dh.
+//           context.drawImage(this, 8, 20, 140, 50, 0, 150, 350, 70);
+           s.drawImage(img, center.x, center.y);
+       }, false);
+
+       img.src = 'images/chrome.png';
+
       s.closePath();
       s.stroke();
    };
@@ -10818,16 +10830,29 @@ Box2D.postDefs = [];
          drawScale = this.m_drawScale,
          cx = center.x * drawScale,
          cy = center.y * drawScale;
-      s.moveTo(0, 0);
-      s.beginPath();
-      s.strokeStyle = this._color(color.color, this.m_alpha);
-      s.fillStyle = this._color(color.color, this.m_fillAlpha);
-      s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
-      s.moveTo(cx, cy);
-      s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
-      s.closePath();
-      s.fill();
-      s.stroke();
+
+       var img = new Image();
+
+       // todo omg omg what a hack
+       // Once it's loaded draw the image on the canvas.
+       img.addEventListener('load', function () {
+//           // Crop and resize the image: sx, sy, sw, sh, dx, dy, dw, dh.
+//           context.drawImage(this, 8, 20, 140, 50, 0, 150, 350, 70);
+           s.drawImage(img, cx - 25, cy - 25);
+       }, false);
+
+       img.src = 'images/chromium.png';
+
+//      s.moveTo(0, 0);
+//      s.beginPath();
+//      s.strokeStyle = this._color(color.color, this.m_alpha);
+//      s.fillStyle = this._color(color.color, this.m_fillAlpha);
+//      s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
+//      s.moveTo(cx, cy);
+//      s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
+//      s.closePath();
+//      s.fill();
+//      s.stroke();
    };
    b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
       var s = this.m_ctx,
