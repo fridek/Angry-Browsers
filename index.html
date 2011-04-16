@@ -15,6 +15,18 @@
 <h1>Angry Browsers</h1>
 <canvas id="canvas" width="1000" height="600" style="background-color:#333333;"></canvas>
 <script type="text/javascript">
+    if(typeof console === 'undefined') {
+        console = {};
+        console.log = function() {
+            return true;
+        };
+        console.time = function() {
+            return true;
+        };
+        console.timeEnd = function() {
+            return true;
+        };
+    };
     window.addEventListener('DOMContentLoaded', function() {
         var game = new Game();
     }, false);
