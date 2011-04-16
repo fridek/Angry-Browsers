@@ -60,7 +60,7 @@ var Cannon = Class.extend({
         var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
             b2Body = Box2D.Dynamics.b2Body;
 
-        this.game.bodyDef.type = b2Body.b2_dynamicBody;
+        this.game.bodyDef.type = b2Body.b2_kinematicBody;
         this.browser.shape = new b2CircleShape(this.browserSize);
 
         this.game.bodyDef.position.Set(this.x, this.y);
@@ -84,15 +84,10 @@ var Cannon = Class.extend({
     },
 
     initEventHandlers: function() {
-        var self = this;
+        var self = this, b2Body = Box2D.Dynamics.b2Body;
         this.game.canvas.addEventListener("click", function(event) {
-            self.fire.apply(self);
-//            self.fire(); // does the same
-            console.log('fire!');
+            self.can.SetType(b2Body.b2_dynamicBody);
+            self.can.ApplyImpulse({x:100, y:-50}, self.can.position);
         }, false);
-    },
-
-    fire: function() {
-          this.can.ApplyImpulse({x:1000,y:1000}, this.can.position);
     }
 });

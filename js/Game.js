@@ -86,7 +86,7 @@ var Game = Class.extend({
          this.cannon = new Cannon(this);
 
          this.maps = new Maps(this);
-         this.maps.makeMap();
+         this.maps.makeMap('testmap');
 
          //setup debug draw
          var debugDraw = new b2DebugDraw();
