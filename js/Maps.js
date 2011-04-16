@@ -75,9 +75,7 @@ var Maps = Class.extend({
                 posX: 20,
                 posY: 8,
                 width: 1,
-                height: 1,
-                angryType: 2,
-                bullet: true
+                height: 1
             }
             
         ]
