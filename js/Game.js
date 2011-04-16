@@ -19,6 +19,14 @@ var Game = Class.extend({
     width: null,
     height: null,
 
+    scale: 30,
+
+    angryTypeWall: 0,
+    angryTypeBrick: 1,
+    angryTypeBullet: 2,
+    angryTypeIE: 3,
+
+
     _removeList: [],
 
     init: function (canvas) {
@@ -38,6 +46,8 @@ var Game = Class.extend({
                 b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
                 b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
+
+
          this.world = new b2World(
             new b2Vec2(0, 10),    //gravity
             true                 //allow sleep
@@ -49,24 +59,25 @@ var Game = Class.extend({
          this.fixDef.restitution = 0.2;
 
          this.bodyDef = new b2BodyDef;
+         this.bodyDef.angryType = this.angryTypeWall;
 
          //create ground
          this.bodyDef.type = b2Body.b2_staticBody;
          this.fixDef.shape = new b2PolygonShape;
-         this.fixDef.shape.SetAsBox(this.width / 30, 2);
+         this.fixDef.shape.SetAsBox(this.width / this.scale, 2);
          // bottom
-         this.bodyDef.position.Set(10, this.height / 30 + 1.8);
+         this.bodyDef.position.Set(10, this.height/this.scale + 1.8);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
          // top
          this.bodyDef.position.Set(10, -1.8);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
 
-         this.fixDef.shape.SetAsBox(2, this.height / 30);
+         this.fixDef.shape.SetAsBox(2, this.height/this.scale);
          // left
          this.bodyDef.position.Set(-1.8, 13);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
          // right
-         this.bodyDef.position.Set(this.width / 30 + 1.8, 13);
+         this.bodyDef.position.Set(this.width/this.scale + 1.8, 13);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
 
         // drawing stuff
@@ -90,8 +101,7 @@ var Game = Class.extend({
 
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact, manifold) {
-           //console.log(contact);
-           //console.log(contact.m_fixtureA.m_body.m_type, contact.m_fixtureB.m_body.m_type);
+           console.log(contact.m_fixtureA.m_body.m_angryType, contact.m_fixtureB.m_body.m_angryType);
 
            if(contact.m_fixtureA.m_body.m_type !== b2Body.b2_staticBody &&
               contact.m_fixtureB.m_body.m_type !== b2Body.b2_staticBody) {
