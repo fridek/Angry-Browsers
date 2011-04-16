@@ -26,6 +26,7 @@ var Game = Class.extend({
     angryTypeBullet: 2,
     angryTypeIE: 3,
 
+    IE: null,
 
     _removeList: [],
 
@@ -104,12 +105,12 @@ var Game = Class.extend({
         contactListener.BeginContact = function(contact, manifold) {
            //console.log(contact.m_fixtureA.m_body.m_angryType, contact.m_fixtureB.m_body.m_angryType);
 
-           if(contact.m_fixtureA.m_body.m_angryType == that.angryTypeBrick &&
-              contact.m_fixtureB.m_body.m_angryType == that.angryTypeBullet){
+           if(contact.m_fixtureA.m_body.m_angryType == that.angryTypeIE &&
+              contact.m_fixtureB.m_body.m_angryType == that.angryTypeWall){
                that._removeList.push(contact.m_fixtureA.m_body);
            }
-           if(contact.m_fixtureB.m_body.m_angryType == that.angryTypeBrick &&
-              contact.m_fixtureA.m_body.m_angryType == that.angryTypeBullet){
+           if(contact.m_fixtureB.m_body.m_angryType == that.angryTypeIE &&
+              contact.m_fixtureA.m_body.m_angryType == that.angryTypeWall){
                that._removeList.push(contact.m_fixtureB.m_body);
            }
         };
