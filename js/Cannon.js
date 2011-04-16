@@ -51,13 +51,13 @@ var Cannon = Class.extend({
     },
 
     initEventHandlers: function() {
-        game.canvas.addEventListener("click", function(event) {
+        this.game.canvas.addEventListener("click", function(event) {
 
         }, false);
     },
 
     fire: function() {
-        mousePVec = new b2Vec2(this.x, this.y);
+        var mousePVec = new b2Vec2(this.x, this.y);
         var aabb = new b2AABB();
 
 //        aabb.lowerBound.Set(this.y - 0.001, this.y - 0.001);
@@ -66,7 +66,7 @@ var Cannon = Class.extend({
 
         // Query the world for overlapping shapes.
 
-        selectedBody = null;
-        world.QueryAABB(getBodyCB, aabb);
+        var selectedBody = null;
+        this.game.world.QueryAABB(getBodyCB, aabb);
     }
 });
