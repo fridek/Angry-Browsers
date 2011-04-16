@@ -10832,7 +10832,7 @@ Box2D.postDefs = [];
          cy = center.y * drawScale;
 
        var img = new Image();
-       if(center.x == IE.position.x && center.y == IE.position.y){
+       if(center.x == window.IE.GetPosition().x && center.y == window.IE.GetPosition().y){
            // todo omg omg what a hakaton :-)
            img.src = 'images/ie.png';
        }

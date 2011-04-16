@@ -130,7 +130,7 @@ var Maps = Class.extend({
                 this.game.world.QueryAABB(function (fixture) {
                     if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
                        if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), new Box2D.Common.Math.b2Vec2(elementObject.posX,elementObject.posY-0.7))) {
-                          Game.IE = fixture.GetBody();
+                          window.IE = fixture.GetBody();
                           return false;
                        }
                     }
