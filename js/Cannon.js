@@ -100,6 +100,7 @@ var Cannon = Class.extend({
             };
             if(power.x == 0) {power.x = 0.01;}
             if(power.y == 0) {power.y = 0.01;}
+            console.log(power);
 
             self.can.SetType(b2Body.b2_dynamicBody);
             self.can.ApplyImpulse(power, self.can.position);
