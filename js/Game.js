@@ -12,8 +12,16 @@ var Game = Class.extend({
     currentMap: null,
     fixDef: null,
     bodyDef: null,
+    canvas: null,
 
-    init: function () {
+    width: null,
+    height: null,
+
+    init: function (canvas) {
+        this.canvas = document.getElementById("canvas");
+        this.height = this.canvas.offsetHeight;
+        this.width = this.canvas.offsetWidth;
+
          var    b2Vec2 = Box2D.Common.Math.b2Vec2,
                 b2AABB = Box2D.Collision.b2AABB,
                 b2BodyDef = Box2D.Dynamics.b2BodyDef,
@@ -42,15 +50,20 @@ var Game = Class.extend({
          //create ground
          this.bodyDef.type = b2Body.b2_staticBody;
          this.fixDef.shape = new b2PolygonShape;
-         this.fixDef.shape.SetAsBox(20, 2);
-         this.bodyDef.position.Set(10, 400 / 30 + 1.8);
+         this.fixDef.shape.SetAsBox(this.width / 30, 2);
+         // bottom
+         this.bodyDef.position.Set(10, this.height / 30 + 1.8);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
+         // top
          this.bodyDef.position.Set(10, -1.8);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
-         this.fixDef.shape.SetAsBox(2, 14);
+
+         this.fixDef.shape.SetAsBox(2, this.height / 30);
+         // left
          this.bodyDef.position.Set(-1.8, 13);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
-         this.bodyDef.position.Set(21.8, 13);
+         // right
+         this.bodyDef.position.Set(this.width / 30 + 1.8, 13);
          this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
 
          this.maps = new Maps(this);
@@ -58,7 +71,7 @@ var Game = Class.extend({
 
          //setup debug draw
          var debugDraw = new b2DebugDraw();
-			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+			debugDraw.SetSprite(this.canvas.getContext("2d"));
 			debugDraw.SetDrawScale(30.0);
 			debugDraw.SetFillAlpha(0.5);
 			debugDraw.SetLineThickness(1.0);
