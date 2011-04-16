@@ -19,6 +19,8 @@ var Game = Class.extend({
     width: null,
     height: null,
 
+    _removeList: [],
+
     init: function (canvas) {
         this.canvas = document.getElementById("canvas");
         this.height = this.canvas.offsetHeight;
@@ -93,12 +95,8 @@ var Game = Class.extend({
 
            if(contact.m_fixtureA.m_body.m_type !== b2Body.b2_staticBody &&
               contact.m_fixtureB.m_body.m_type !== b2Body.b2_staticBody) {
-                //contact.m_fixtureA.Destroy();
+               that._removeList.push(contact.m_fixtureA.m_body);
            }
-            /*
-            if(contact.m_fixtureB.m_body.m_type) {
-               contact.m_fixtureB.Destroy();
-           }*/
         };
         this.world.SetContactListener(contactListener);
     },
@@ -107,5 +105,12 @@ var Game = Class.extend({
         this.world.Step(1 / 30, 10, 10);
         this.world.DrawDebugData();
         this.world.ClearForces();
+        var len = this._removeList?this._removeList.length:0;
+        if(len > 0)
+        {
+            for(var i = 0; i < len; i++) {
+                this.world.DestroyBody(this._removeList[i]);
+            }
+        }
     }
 });
