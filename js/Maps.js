@@ -123,6 +123,20 @@ var Maps = Class.extend({
             Game.bodyDef.position.x = elementObject.posX;
             Game.bodyDef.position.y = elementObject.posY-0.7;
             Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
+            if(elementObject.angryType == Game.angryTypeIE) {
+                var aabb = new Box2D.Collision.b2AABB(), that = this;
+                aabb.lowerBound.Set(elementObject.posX - 0.001, elementObject.posY-0.7 - 0.001);
+                aabb.upperBound.Set(elementObject.posX + 0.001, elementObject.posY-0.7 + 0.001);
+                this.game.world.QueryAABB(function (fixture) {
+                    if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+                       if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), new Box2D.Common.Math.b2Vec2(elementObject.posX,elementObject.posY-0.7))) {
+                          Game.IE = fixture.GetBody();
+                          return false;
+                       }
+                    }
+                    return true;
+                 }, aabb);
+            }
         }
     }
 });
