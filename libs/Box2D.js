@@ -10823,20 +10823,22 @@ Box2D.postDefs = [];
          cx = center.x * drawScale,
          cy = center.y * drawScale;
 
-       var img = new Image();
-       if(center.x == window.IE.GetPosition().x && center.y == window.IE.GetPosition().y){
-           // todo omg omg what a hakaton :-)
-           img.src = 'images/ie.png';
-       } else {
-           img.src = 'images/chromium.png';
-       }
-       // todo omg omg what a hack
-       // Once it's loaded draw the image on the canvas.
-       img.addEventListener('load', function () {
-//           // Crop and resize the image: sx, sy, sw, sh, dx, dy, dw, dh.
-//           context.drawImage(this, 8, 20, 140, 50, 0, 150, 350, 70);
-           s.drawImage(img, cx - 25, cy - 25);
-       }, false);
+       if(!b2DebugDraw.hackedImgs) {
+           if(!b2DebugDraw.hackedImgsCount) {
+               b2DebugDraw.hackedImgsCount = true;
+
+               b2DebugDraw.hackedImg = new Image();
+               b2DebugDraw.hackedImg.src = 'images/ie.png';
+               b2DebugDraw.hackedImg2 = new Image();
+               b2DebugDraw.hackedImg2.src = 'images/chromium.png';
+           }
+        }
+        if(center.x == window.IE.GetPosition().x && center.y == window.IE.GetPosition().y) {
+            s.drawImage(b2DebugDraw.hackedImg, cx - 25, cy - 25);
+        } else {
+            s.drawImage(b2DebugDraw.hackedImg2, cx - 25, cy - 25);
+        }
+
    };
    b2DebugDraw.prototype.DrawSegment = function (p1, p2, color) {
       var s = this.m_ctx,

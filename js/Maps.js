@@ -72,7 +72,13 @@ var Maps = Class.extend({
                 height: 5
             },
             {
-                posX: 20,
+                posX: 19,
+                posY: 8,
+                width: 1,
+                height: 1
+            },
+            {
+                posX: 21,
                 posY: 8,
                 width: 1,
                 height: 1,
