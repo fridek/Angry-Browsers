@@ -8,8 +8,6 @@
 
 var Cannon = Class.extend({
 
-    power: 15,
-
     x: 30,
     y: 30,
 
@@ -19,8 +17,13 @@ var Cannon = Class.extend({
 
     ],
 
-    init: function() {
+    fixDef: null,
 
+    init: function() {
+        this.fixDef = new b2FixtureDef;
+        this.fixDef.density = 1.0;
+        this.fixDef.friction = 0.5;
+        this.fixDef.restitution = 0.2;
     },
 
     fire: function() {
