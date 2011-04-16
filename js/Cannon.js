@@ -64,14 +64,17 @@ var Cannon = Class.extend({
         this.game.bodyDef.position.y = this.y;
         // todo make it look like a browser ;-) (styling)
 
-        this.browser = this.game.world.CreateBody(this.game.bodyDef);
-        this.browser.CreateFixture(this.game.fixDef);
+        this.game.world.CreateBody(this.game.bodyDef).CreateFixture(this.game.fixDef);
+        this.browser = this.game.bodyDef;
+//        this.browser = this.game.world.CreateBody(this.game.bodyDef);
+//        this.browserFixture = this.browser.CreateFixture(this.game.fixDef);
     },
 
     initEventHandlers: function() {
         var self = this;
         this.game.canvas.addEventListener("click", function(event) {
-            self.fire();
+            self.fire.apply(self);
+//            self.fire(); // does the same
             console.log('fire!');
         }, false);
     },
@@ -79,20 +82,20 @@ var Cannon = Class.extend({
     fire: function() {
 //todo clean me
         var b2AABB = Box2D.Collision.b2AABB,
-                b2Body = Box2D.Dynamics.b2Body;
+            b2Body = Box2D.Dynamics.b2Body;
 
-//        var mousePVec = new b2Vec2(this.x, this.y);
-        var aabb = new b2AABB();
+//        var aabb = new b2AABB();
+//
+//        aabb.lowerBound.Set(this.y - 0.001, this.y - 0.001);
+//        aabb.upperBound.Set(this.y + 0.001, this.y + 0.001);
 
-        aabb.lowerBound.Set(this.y - 0.001, this.y - 0.001);
-        aabb.upperBound.Set(this.y + 0.001, this.y + 0.001);
-
-        this.browser.ApplyImpulse(this.force, aabb.position);
+//        this.game.world.ApplyImpulse(this.force, this.browser.position);
+        this.browser.ApplyImpulse(this.force, this.browser.position);
 
         // Query the world for overlapping shapes.
 
-        var selectedBody = null;
-        this.game.world.QueryAABB(getBodyCB, aabb); //todo wh000000000000t?
-        return selectedBody;
+//        var selectedBody = null;
+//        this.game.world.QueryAABB(this.browser, aabb); //todo wh000000000000t?
+//        return selectedBody;
     }
 });
