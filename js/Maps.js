@@ -58,7 +58,7 @@ var Maps = Class.extend({
 
     makeMap: function (mapID) {
         var Game = this.game;
-        var Maps = this.maps[mapID];
+        var Map = this.maps[mapID];
         console.log(Game);
         var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
@@ -66,21 +66,21 @@ var Maps = Class.extend({
         
         //create some objects
         Game.bodyDef.type = b2Body.b2_dynamicBody;
-        for (var i = 0; i < Maps.length; ++i) {
-            var Map = Maps[i];
+        for (var i = 0; i < Map.length; ++i) {
+            var elementObject = Map[i];
             Game.fixDef.shape = new b2PolygonShape;
             Game.fixDef.shape.SetAsBox(
-                Map.width/2, //half width
-                Map.height/2  //half height
+                elementObject.width/2, //half width
+                elementObject.height/2  //half height
             );
              //Rysowanie kółek
 //               this.game.fixDef.shape = new b2CircleShape(
 //                  Math.random() + 0.1 //radius
 //               );
 //            }
-            Game.bodyDef.position.x = Map.posX;
-            Game.bodyDef.position.y = Map.posY-0.7;
+            Game.bodyDef.position.x = elementObject.posX;
+            Game.bodyDef.position.y = elementObject.posY-0.7;
             Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
-         }
+        }
     }
 });
