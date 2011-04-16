@@ -10813,14 +10813,6 @@ Box2D.postDefs = [];
        var img = new Image();
 
        // Once it's loaded draw the image on the canvas.
-       img.addEventListener('load', function () {
-//           // Crop and resize the image: sx, sy, sw, sh, dx, dy, dw, dh.
-//           context.drawImage(this, 8, 20, 140, 50, 0, 150, 350, 70);
-           s.drawImage(img, center.x, center.y);
-       }, false);
-
-       img.src = 'images/chrome.png';
-
       s.closePath();
       s.stroke();
    };
@@ -10835,9 +10827,9 @@ Box2D.postDefs = [];
        if(center.x == window.IE.GetPosition().x && center.y == window.IE.GetPosition().y){
            // todo omg omg what a hakaton :-)
            img.src = 'images/ie.png';
+       } else {
+           img.src = 'images/chromium.png';
        }
-       img.src = 'images/chromium.png';
-
        // todo omg omg what a hack
        // Once it's loaded draw the image on the canvas.
        img.addEventListener('load', function () {
