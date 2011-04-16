@@ -24,6 +24,8 @@ var Cannon = Class.extend({
     game: null,
     fixDef: null,
 
+    can: null,
+
     init: function(game) {
 
         //todo clean me
@@ -42,12 +44,13 @@ var Cannon = Class.extend({
 
         this.game = game;
 
-        this.fixDef = new b2FixtureDef;
-        this.fixDef.density = 1.0;
-        this.fixDef.friction = 0.5;
-        this.fixDef.restitution = 0.2;
+        this.browser = new b2FixtureDef;
+        this.browser.density = 1.0;
+        this.browser.mass = 1.0;
+        this.browser.friction = 0.5;
+        this.browser.restitution = 0.2;
 
-        this.force = b2Vec2(10, 10);
+        this.force = b2Vec2(1000, 1000);
 
         this.nextBrowser();
         this.initEventHandlers();
@@ -55,19 +58,29 @@ var Cannon = Class.extend({
 
     nextBrowser: function() {
         var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
-                b2Body = Box2D.Dynamics.b2Body;
+            b2Body = Box2D.Dynamics.b2Body;
 
-        this.game.bodyDef.type = b2Body.b2_kinematicBody;
-        this.game.fixDef.shape = new b2CircleShape(this.browserSize);
+        this.game.bodyDef.type = b2Body.b2_dynamicBody;
+        this.browser.shape = new b2CircleShape(this.browserSize);
 
-        this.game.bodyDef.position.x = this.x;
-        this.game.bodyDef.position.y = this.y;
-        // todo make it look like a browser ;-) (styling)
+        this.game.bodyDef.position.Set(this.x, this.y);
 
-        this.game.world.CreateBody(this.game.bodyDef).CreateFixture(this.game.fixDef);
-        this.browser = this.game.bodyDef;
-//        this.browser = this.game.world.CreateBody(this.game.bodyDef);
-//        this.browserFixture = this.browser.CreateFixture(this.game.fixDef);
+//        this.game.world.CreateBody(this.game.bodyDef).CreateFixture(this.browser);
+        this.browserBrowser = this.game.world.CreateBody(this.game.bodyDef);
+        this.browserFixture = this.browserBrowser.CreateFixture(this.browser);
+
+        var aabb = new Box2D.Collision.b2AABB(), that = this;
+        aabb.lowerBound.Set(this.x - 0.001, this.y - 0.001);
+        aabb.upperBound.Set(this.x + 0.001, this.y + 0.001);
+        this.game.world.QueryAABB(function (fixture) {
+            if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+               if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), new Box2D.Common.Math.b2Vec2(that.x,that.y))) {
+                  that.can = fixture.GetBody();
+                  return false;
+               }
+            }
+            return true;
+         }, aabb);
     },
 
     initEventHandlers: function() {
@@ -80,22 +93,6 @@ var Cannon = Class.extend({
     },
 
     fire: function() {
-//todo clean me
-        var b2AABB = Box2D.Collision.b2AABB,
-            b2Body = Box2D.Dynamics.b2Body;
-
-//        var aabb = new b2AABB();
-//
-//        aabb.lowerBound.Set(this.y - 0.001, this.y - 0.001);
-//        aabb.upperBound.Set(this.y + 0.001, this.y + 0.001);
-
-//        this.game.world.ApplyImpulse(this.force, this.browser.position);
-        this.browser.ApplyImpulse(this.force, this.browser.position);
-
-        // Query the world for overlapping shapes.
-
-//        var selectedBody = null;
-//        this.game.world.QueryAABB(this.browser, aabb); //todo wh000000000000t?
-//        return selectedBody;
+          this.can.ApplyImpulse({x:1000,y:1000}, this.can.position);
     }
 });
