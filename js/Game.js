@@ -117,15 +117,34 @@ var Game = Class.extend({
         this.world.SetContactListener(contactListener);
     },
 
+    done: false,
+
     step: function () {
         this.world.Step(1 / 30, 10, 10);
         this.world.DrawDebugData();
         this.world.ClearForces();
 
         var len = this._removeList?this._removeList.length:0;
-        if(len > 0)
+        if(!this.done && len > 0)
         {
             for(var i = 0; i < len; i++) {
+                if(!this.done) {
+                    this.done = true;
+                    var announcement = document.createElement('div');
+                    announcement.innerHTML = "IE PWNED!";
+                    announcement.style.position = "fixed";
+                    announcement.style.left = "50%";
+                    announcement.style.top = "50%";
+                    announcement.style.marginLeft = "-100px";
+                    announcement.style.marginTop = "-25px";
+                    announcement.style.width = "200px";
+                    announcement.style.height = "50px";
+                    announcement.style.background = "#FFF";
+
+                    document.body.appendChild(announcement);
+                    console.log(announcement);
+                }
+
                 this.world.DestroyBody(this._removeList[i]);
             }
         }
