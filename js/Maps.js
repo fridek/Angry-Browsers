@@ -11,7 +11,7 @@ var Maps = Class.extend({
 
     maps: {
         random: function() {
-            var Game = this;
+            var Game = this.game;
             var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
                 b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
                 b2Body = Box2D.Dynamics.b2Body;
@@ -33,7 +33,9 @@ var Maps = Class.extend({
                         Math.random() + 0.1 //radius
                     );
                 }
-                Game.bodyDef.position.x = Math.random() * 20 + 15;
+                var random = (Math.random() > 0.3) ? b2Body.b2_dynamicBody : b2Body.b2_staticBody;
+                Game.bodyDef.type = random;
+                Game.bodyDef.position.x = Math.random() * 20 + 20;
                 Game.bodyDef.position.y = Math.random() * 20;
                 Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
             }
@@ -87,10 +89,11 @@ var Maps = Class.extend({
     },
 
     makeMap: function (mapID) {
-        if(typeof mapID === 'undefined') {
-            mapID = 'random';
-        }
         var Game = this.game;
+        if(typeof mapID === 'undefined') {
+            this.maps.random.apply(this);
+            return;
+        }
         var Map = this.maps[mapID];
         var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
@@ -105,17 +108,13 @@ var Maps = Class.extend({
                 elementObject.width/2, //half width
                 elementObject.height/2  //half height
             );
-         //Rysowanie kółek
-//               this.game.fixDef.shape = new b2CircleShape(
-//                  Math.random() + 0.1 //radius
-//               );
-//            }
+            //Object angryType - if can be destroyed etc.
             if(elementObject.angryType) {
                 Game.bodyDef.angryType = elementObject.angryType;
             } else {
                 Game.bodyDef.angryType = Game.angryTypeBrick;
             }
-
+            //Object which destroys other objects
             if(elementObject.bullet) {
                 Game.bodyDef.bullet = elementObject.bullet;
             } else {
