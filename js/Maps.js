@@ -27,14 +27,12 @@ var Maps = Class.extend({
 
         //create some objects
         this.game.bodyDef.type = b2Body.b2_dynamicBody;
-        for(var i = 0; i < 10; ++i) {
+        for (var i = 0; i < 10; ++i) {
             this.game.fixDef.shape = new b2PolygonShape;
-            console.log()
             this.game.fixDef.shape.SetAsBox(
                 Math.random() + 0.1, //half width
-                Math.random() + 0.1 //half height
+                Math.random() + 0.1  //half height
             );
-            
              //Rysowanie kółek
 //               this.game.fixDef.shape = new b2CircleShape(
 //                  Math.random() + 0.1 //radius
