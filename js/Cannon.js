@@ -92,15 +92,14 @@ var Cannon = Class.extend({
     initEventHandlers: function() {
         var self = this, b2Body = Box2D.Dynamics.b2Body;
         this.game.canvas.addEventListener("click", function(event) {
-            var angle = self.input_angle.value + 90;
+            var angle = self.input_angle.value * -1;
 
             var power = {
-                x: Math.sin(Math.PI/180 * angle) * self.input_power.value,
-                y: Math.cos(Math.PI/180 * angle) * self.input_power.value
+                x: Math.cos(Math.PI * angle/180) * self.input_power.value,
+                y: Math.sin(Math.PI * angle/180) * self.input_power.value
             };
             if(power.x == 0) {power.x = 0.01;}
             if(power.y == 0) {power.y = 0.01;}
-            console.log(power);
 
             self.can.SetType(b2Body.b2_dynamicBody);
             self.can.ApplyImpulse(power, self.can.position);
