@@ -60,6 +60,7 @@ var Game = Class.extend({
 
          this.bodyDef = new b2BodyDef;
          this.bodyDef.angryType = this.angryTypeWall;
+         this.bodyDef.angryHealth = 100;
 
          //create ground
          this.bodyDef.type = b2Body.b2_staticBody;
@@ -103,9 +104,13 @@ var Game = Class.extend({
         contactListener.BeginContact = function(contact, manifold) {
            console.log(contact.m_fixtureA.m_body.m_angryType, contact.m_fixtureB.m_body.m_angryType);
 
-           if(contact.m_fixtureA.m_body.m_type !== b2Body.b2_staticBody &&
-              contact.m_fixtureB.m_body.m_type !== b2Body.b2_staticBody) {
+           if(contact.m_fixtureA.m_body.m_angryType == that.angryTypeBrick &&
+              contact.m_fixtureB.m_body.m_angryType == that.angryTypeBullet){
                that._removeList.push(contact.m_fixtureA.m_body);
+           }
+           if(contact.m_fixtureB.m_body.m_angryType == that.angryTypeBrick &&
+              contact.m_fixtureA.m_body.m_angryType == that.angryTypeBullet){
+               that._removeList.push(contact.m_fixtureB.m_body);
            }
         };
         this.world.SetContactListener(contactListener);
@@ -115,6 +120,7 @@ var Game = Class.extend({
         this.world.Step(1 / 30, 10, 10);
         this.world.DrawDebugData();
         this.world.ClearForces();
+
         var len = this._removeList?this._removeList.length:0;
         if(len > 0)
         {
@@ -122,5 +128,7 @@ var Game = Class.extend({
                 this.world.DestroyBody(this._removeList[i]);
             }
         }
+
+        
     }
 });
