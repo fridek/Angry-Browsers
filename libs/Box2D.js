@@ -4954,6 +4954,12 @@ Box2D.postDefs = [];
       this.m_torque = 0.0;
       this.m_sleepTime = 0.0;
       this.m_type = bd.type;
+
+        // fuck you Uli Hecht
+         this.m_angryType = bd.angryType;
+
+
+
       if (this.m_type == b2Body.b2_dynamicBody) {
          this.m_mass = 1.0;
          this.m_invMass = 1.0;
