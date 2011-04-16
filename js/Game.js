@@ -88,9 +88,17 @@ var Game = Class.extend({
 
         var contactListener = new Box2D.Dynamics.b2ContactListener;
         contactListener.BeginContact = function(contact, manifold) {
-           console.log(contact);
-           contact.m_nodeA.Destroy();
-           contact.m_nodeB.Destroy();
+           //console.log(contact);
+           //console.log(contact.m_fixtureA.m_body.m_type, contact.m_fixtureB.m_body.m_type);
+
+           if(contact.m_fixtureA.m_body.m_type !== b2Body.b2_staticBody &&
+              contact.m_fixtureB.m_body.m_type !== b2Body.b2_staticBody) {
+                //contact.m_fixtureA.Destroy();
+           }
+            /*
+            if(contact.m_fixtureB.m_body.m_type) {
+               contact.m_fixtureB.Destroy();
+           }*/
         };
         this.world.SetContactListener(contactListener);
     },

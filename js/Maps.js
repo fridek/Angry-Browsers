@@ -10,9 +10,45 @@ var Maps = Class.extend({
     game: null,
 
     maps: {
-        testmap: {
+        testmap: [
+            {
+                posX: 20,
+                posY: 20,
+                width: 1,
+                height: 1
+            },
+            {
+                posX: 20,
+                posY: 19,
+                width: 2,
+                height: 2
+            },
+            {
+                posX: 20,
+                posY: 17.5,
+                width: 3,
+                height: 3
+            },
+            {
+                posX: 20,
+                posY: 15.5,
+                width: 4,
+                height: 4
+            },
+            {
+                posX: 20,
+                posY: 13,
+                width: 5,
+                height: 5
+            },
+            {
+                posX: 20,
+                posY: 8,
+                width: 1,
+                height: 1
+            }
             
-        }
+        ]
 
     },
 
@@ -21,26 +57,30 @@ var Maps = Class.extend({
     },
 
     makeMap: function (mapID) {
+        var Game = this.game;
+        var Map = this.maps[mapID];
+        console.log(Game);
         var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
             b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
             b2Body = Box2D.Dynamics.b2Body;
-
+        
         //create some objects
-        this.game.bodyDef.type = b2Body.b2_dynamicBody;
-        for (var i = 0; i < 10; ++i) {
-            this.game.fixDef.shape = new b2PolygonShape;
-            this.game.fixDef.shape.SetAsBox(
-                Math.random() + 0.1, //half width
-                Math.random() + 0.1  //half height
+        Game.bodyDef.type = b2Body.b2_dynamicBody;
+        for (var i = 0; i < Map.length; ++i) {
+            var elementObject = Map[i];
+            Game.fixDef.shape = new b2PolygonShape;
+            Game.fixDef.shape.SetAsBox(
+                elementObject.width/2, //half width
+                elementObject.height/2  //half height
             );
              //Rysowanie kółek
 //               this.game.fixDef.shape = new b2CircleShape(
 //                  Math.random() + 0.1 //radius
 //               );
 //            }
-            this.game.bodyDef.position.x = Math.random() * 10;
-            this.game.bodyDef.position.y = Math.random() * 10;
-            this.game.world.CreateBody(this.game.bodyDef).CreateFixture(this.game.fixDef);
-         }
+            Game.bodyDef.position.x = elementObject.posX;
+            Game.bodyDef.position.y = elementObject.posY-0.7;
+            Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
+        }
     }
 });
