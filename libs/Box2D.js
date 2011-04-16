@@ -4955,8 +4955,13 @@ Box2D.postDefs = [];
       this.m_sleepTime = 0.0;
       this.m_type = bd.type;
 
-        // fuck you Uli Hecht
-         this.m_angryType = bd.angryType;
+      // fuck you Uli Hecht
+      this.m_angryType = bd.angryType;
+      if(bd.angryHealth) {
+        this.m_angryHealth = bd.angryHealth;
+      } else {
+        this.m_angryHealth = 100;
+      }
 
 
 

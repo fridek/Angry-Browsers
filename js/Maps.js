@@ -74,7 +74,8 @@ var Maps = Class.extend({
                 posY: 8,
                 width: 1,
                 height: 1,
-                angryType: Game.angryTypeBullet
+                angryType: 2,
+                bullet: true
             }
             
         ]
@@ -97,32 +98,33 @@ var Maps = Class.extend({
         
         //create some objects
         Game.bodyDef.type = b2Body.b2_dynamicBody;
-        if((Map instanceof Function)) {
-            Map.apply(Game);
-            return;
-        } else {
-            for (var i = 0; i < Map.length; ++i) {
-                var elementObject = Map[i];
-                Game.fixDef.shape = new b2PolygonShape;
-                Game.fixDef.shape.SetAsBox(
-                    elementObject.width/2, //half width
-                    elementObject.height/2  //half height
-                );
-             //Rysowanie kółek
-    //               this.game.fixDef.shape = new b2CircleShape(
-    //                  Math.random() + 0.1 //radius
-    //               );
-    //            }
-                if(elementObject.angryType) {
-                    Game.bodyDef.angryType = elementObject.angryType;
-                } else {
-                    Game.bodyDef.angryType = Game.angryTypeBrick;
-                }
-
-                Game.bodyDef.position.x = elementObject.posX;
-                Game.bodyDef.position.y = elementObject.posY-0.7;
-                Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
+        for (var i = 0; i < Map.length; ++i) {
+            var elementObject = Map[i];
+            Game.fixDef.shape = new b2PolygonShape;
+            Game.fixDef.shape.SetAsBox(
+                elementObject.width/2, //half width
+                elementObject.height/2  //half height
+            );
+         //Rysowanie kółek
+//               this.game.fixDef.shape = new b2CircleShape(
+//                  Math.random() + 0.1 //radius
+//               );
+//            }
+            if(elementObject.angryType) {
+                Game.bodyDef.angryType = elementObject.angryType;
+            } else {
+                Game.bodyDef.angryType = Game.angryTypeBrick;
             }
+
+            if(elementObject.bullet) {
+                Game.bodyDef.bullet = elementObject.bullet;
+            } else {
+                Game.bodyDef.bullet = false;
+            }
+
+            Game.bodyDef.position.x = elementObject.posX;
+            Game.bodyDef.position.y = elementObject.posY-0.7;
+            Game.world.CreateBody(Game.bodyDef).CreateFixture(Game.fixDef);
         }
     }
 });
