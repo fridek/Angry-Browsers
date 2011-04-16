@@ -102,11 +102,7 @@ var Maps = Class.extend({
         Game.bodyDef.type = b2Body.b2_dynamicBody;
         for (var i = 0; i < Map.length; ++i) {
             var elementObject = Map[i];
-            Game.fixDef.shape = new b2PolygonShape;
-            Game.fixDef.shape.SetAsBox(
-                elementObject.width/2, //half width
-                elementObject.height/2  //half height
-            );
+
             //Object angryType - if can be destroyed etc.
             if(elementObject.angryType) {
                 Game.bodyDef.angryType = elementObject.angryType;
@@ -119,6 +115,17 @@ var Maps = Class.extend({
             } else {
                 Game.bodyDef.bullet = false;
             }
+            if(elementObject.angryType === Game.angryTypeIE) {
+                Game.fixDef.shape = new b2CircleShape(
+                    0.8 //radius
+                );
+            } else {
+                Game.fixDef.shape = new b2PolygonShape;
+                Game.fixDef.shape.SetAsBox(
+                    elementObject.width/2, //half width
+                    elementObject.height/2  //half height
+                );
+            }
 
             Game.bodyDef.position.x = elementObject.posX;
             Game.bodyDef.position.y = elementObject.posY-0.7;
@@ -130,7 +137,7 @@ var Maps = Class.extend({
                 this.game.world.QueryAABB(function (fixture) {
                     if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
                        if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), new Box2D.Common.Math.b2Vec2(elementObject.posX,elementObject.posY-0.7))) {
-                          Game.IE = fixture.GetBody();
+                          window.IE = fixture.GetBody();
                           return false;
                        }
                     }
