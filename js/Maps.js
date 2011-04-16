@@ -34,6 +34,7 @@ var Maps = Class.extend({
                 Math.random() + 0.1, //half width
                 Math.random() + 0.1 //half height
             );
+            
              //Rysowanie kółek
 //               this.game.fixDef.shape = new b2CircleShape(
 //                  Math.random() + 0.1 //radius
